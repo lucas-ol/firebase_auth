@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="login-form">
+        <form>
+            <h1>Login</h1>
+            <div class="content">
+                <div class="input-field">
+                    <input type="email" placeholder="Email" autocomplete="nope" id="txtEmail">
+                </div>
+                <div class="input-field">
+                    <input type="password" placeholder="Password" autocomplete="new-password" id="txtPassword">
+                </div>
+             </div>
+            <div class="action">
+                <button type="button" id="btnRegister">cadastrar-se</button>
+                <button type="button" id="btnSignIn">Logar</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script type="module">
+    import { app, createUser, authUser } from '/modules/auth.js';
+
+
+    function signIn() {
+        let email = document.querySelector("#txtEmail").value;
+        let password = document.querySelector("#txtPassword").value;
+        if (email.length == 0) {
+            alert("O email é obrigatorio.");
+            return;
+        }
+        if (password.length == 0) {
+            alert("A senha a obrigatoria.");
+            return;
+        }
+        authUser(email, password,
+            function (client) {
+                alert("Login realizado com sucesso, verifique o console");
+                console.log(client);
+            }, function (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert("Error code: " + errorCode + "\nMessage" + errorMessage);
+            });
+    }
+
+    function signUp() {
+        let email = document.querySelector("#txtEmail").value;
+        let password = document.querySelector("#txtPassword").value;
+        if (email.length == 0) {
+            alert("O email é obrigatorio.");
+            return;
+        }
+        if (password.length == 0) {
+            alert("A senha a obrigatoria.");
+            return;
+        }
+        createUser(email, password,
+            function (client) {
+                alert("Cadastro realizado com sucesso");
+                console.log(client);
+            }, function (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert("Error code: " + errorCode + "\nMessage" + errorMessage);
+            });
+    }
+
+    document.querySelector("#btnSignIn").addEventListener("click", signIn);
+    document.querySelector("#btnRegister").addEventListener("click", signUp);
+
+
+</script>
+
+</html>
